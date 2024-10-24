@@ -1,0 +1,93 @@
+
+Project Name: Credit Score Analysis Tool
+
+
+1) Introduction
+===================
+
+The goal of this tool is to automate the process of credit score evaluation by integrating data 
+from various sources including credit bureaus and banking transaction records.
+
+This tool provided real-time credit scoring, predictive analytics based on customer behaviour, 
+and detailed reporting features for bank staff.
+
+It was designed using a microservices architecture, ensuring scalability and efficient 
+management of different service components
+
+
+i) Client Side:
+
+We are using React js in the frontend part of this project and we have a separate frontend 
+developers’ team 
+
+ii) API Gateway
+
+It Acts as the single-entry point for all client requests to the backend services. It routes 
+requests to the appropriate microservices and provides common functionalities like 
+authentication and logging.
+
+Spring Cloud Gateway is being used for this purpose, integrating easily with other Spring 
+Boot applications.
+
+Spring Cloud Gateway is a Java-based API gateway for routing and filtering traffic to 
+microservices. It makes it easier and safer for these services to communicate with each other.
+
+iii) Microservices:
+
+The application is split into microservices that can be set up on their own. Each service handles a 
+different part of what the application does. This setup makes the application simpler to manage, 
+easier to fix and update, and allows it to grow more easily.
+
+We have following microservices in this project
+===============================================
+• Data Collection Service: It manages the ingestion and preprocessing of financial data 
+from various sources.
+
+• Credit Scoring Service: It handles the calculation of credit scores using a predefined 
+algorithm. This service processes input from the Data Collection Service.
+
+• User Management Service: It responsible for authentication and user account 
+management.
+
+• Report Service: It generates detailed credit reports and analytics based on the credit 
+scores calculated.
+
+
+Responsibilities
+=====================================================================
+• Worked on the implementation of real-time credit scoring using Kafka, enhancing 
+decision-making speed.
+
+• Collaborated with the team to develop REST APIs and implement business features 
+for seamless functionality.
+
+• Integrated OAuth for secure user authentication, ensuring robust system security.
+• Utilized Redis cache for efficient data caching, optimizing application performance 
+and reducing database load.
+
+• Contributed to the design and development of the microservices architecture, enabling 
+easy deployment and maintenance
+
+===================================
+challanges
+=================================
+One challenge we faced in our credit score project was integrating with third-party credit score validation APIs, 
+which often impose rate limits on API calls. To handle this, we implemented Resilience4j for rate limiting.
+ For example, our CreditScoreValidationService was restricted to 5 API calls per minute. 
+If the number of requests exceeded this limit, Resilience4j would block further requests until the quota refreshed.
+ This helped us avoid hitting the third-party rate limits while ensuring our service remained reliable and resilient.
+==================================================================================================================================
+In our credit score project, we faced a challenge when calling third-party credit bureaus to validate scores
+. Sometimes, these external services would become slow or unavailable, which could block our system and lead to cascading failures.
+ To prevent this, we implemented a circuit breaker pattern using Resilience4j. 
+The circuit breaker monitors the API calls, and if it detects a failure rate above 50%, it opens the circuit, temporarily stopping requests to the external service.
+ This allowed our system to degrade gracefully and provided users with fallback responses instead of letting the entire service fail.
+ Once the service recovered, the circuit would close and normal operations would resume.
+===============================================================================================================================================
+One challenge we faced in our credit score project was maintaining cache consistency when using Redis to cache frequently changing credit scores.
+ Caching helped reduce load on our database, but when credit scores were updated, the cached data would become stale.
+ To solve this, we implemented cache invalidation. Whenever a credit score was updated, we deleted the corresponding entry from Redis.
+ The next time a request was made, the system fetched the updated score from the database and refreshed the cache.
+ This helped us ensure that users always saw the latest data while benefiting from the performance improvements of caching.
+=======================================================================================================================================
+
